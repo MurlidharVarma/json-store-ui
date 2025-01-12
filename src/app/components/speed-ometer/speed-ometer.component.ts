@@ -2,10 +2,11 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { SpeedOmeterService } from './speed-ometer.service';
 import { interval, mergeMap, pipe, Subscription } from 'rxjs';
 import { SpeedOmeterModel } from './speed-ometer.model';
+import { DatePipe } from '@angular/common';
 
 @Component({
   selector: 'app-speed-ometer',
-  imports: [],
+  imports: [DatePipe],
   templateUrl: './speed-ometer.component.html',
   styleUrl: './speed-ometer.component.scss'
 })
@@ -13,6 +14,7 @@ export class SpeedOmeterComponent implements OnInit, OnDestroy{
 
   data: SpeedOmeterModel;
   observableRef$: any;
+  currDate: any = Date.now();
 
   public constructor(private service: SpeedOmeterService){
     this.data = {value: 0, unit: "cm/s"};
@@ -38,6 +40,7 @@ export class SpeedOmeterComponent implements OnInit, OnDestroy{
 
     this.observableRef$.subscribe((data: any) =>{
       console.log("polling pantry ", data)
+      this.currDate = Date.now();
       this.data = data;
     });
   }
